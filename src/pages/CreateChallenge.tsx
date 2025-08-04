@@ -19,7 +19,6 @@ export interface ChallengeData {
   // Mechanics
   instructions: string;
   maxAttemptsPerDay: number | null;
-  totalAttempts: number | null;
   visibility: "public" | "private";
   
   // Rewards - conditional based on type
@@ -48,7 +47,6 @@ const CreateChallenge = () => {
     bannerImage: null,
     instructions: "",
     maxAttemptsPerDay: null,
-    totalAttempts: null,
     visibility: "public",
     rewards: {},
     publishNow: true,
@@ -104,7 +102,7 @@ const CreateChallenge = () => {
   const progress = ((currentSection + 1) / sections.length) * 100;
 
   return (
-    <div className="min-h-screen bg-background font-poppins">
+    <div className="min-h-screen bg-background font-poppins max-w-sm mx-auto border-x border-border">{/* Phone screen container */}
       {/* Header */}
       <div className="sticky top-0 z-50 bg-card border-b border-border">
         <div className="flex items-center justify-between p-4">
@@ -156,7 +154,7 @@ const CreateChallenge = () => {
       </ScrollArea>
 
       {/* Navigation Footer */}
-      <div className="fixed bottom-0 left-0 right-0 bg-card border-t border-border p-4">
+      <div className="fixed bottom-0 left-1/2 transform -translate-x-1/2 w-full max-w-sm bg-card border-t border-border p-4">{/* Phone width footer */}
         <div className="flex gap-3">
           {currentSection > 0 && (
             <Button 

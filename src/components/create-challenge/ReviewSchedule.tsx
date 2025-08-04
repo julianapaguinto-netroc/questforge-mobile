@@ -48,7 +48,6 @@ export const ReviewSchedule = ({ data, onUpdate }: ReviewScheduleProps) => {
               </div>
               <div className="text-sm text-muted-foreground space-y-1">
                 <p><strong>Daily limit:</strong> {data.maxAttemptsPerDay || "Unlimited"}</p>
-                <p><strong>Total limit:</strong> {data.totalAttempts || "Unlimited"}</p>
               </div>
             </div>
           </div>

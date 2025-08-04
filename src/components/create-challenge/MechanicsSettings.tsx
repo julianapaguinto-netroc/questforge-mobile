@@ -35,38 +35,20 @@ export const MechanicsSettings = ({ data, onUpdate }: MechanicsSettingsProps) =>
           <div className="space-y-4">
             <h3 className="text-sm font-medium text-foreground">Participation Limits</h3>
             
-            <div className="grid grid-cols-1 gap-4">
-              <div className="space-y-2">
-                <Label htmlFor="maxPerDay" className="text-sm">
-                  Max attempts per day
-                </Label>
-                <Input
-                  id="maxPerDay"
-                  type="number"
-                  placeholder="Unlimited"
-                  value={data.maxAttemptsPerDay || ""}
-                  onChange={(e) => onUpdate({ 
-                    maxAttemptsPerDay: e.target.value ? parseInt(e.target.value) : null 
-                  })}
-                  className="border-border focus:ring-brand focus:border-brand"
-                />
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="totalAttempts" className="text-sm">
-                  Total attempts allowed
-                </Label>
-                <Input
-                  id="totalAttempts"
-                  type="number"
-                  placeholder="Unlimited"
-                  value={data.totalAttempts || ""}
-                  onChange={(e) => onUpdate({ 
-                    totalAttempts: e.target.value ? parseInt(e.target.value) : null 
-                  })}
-                  className="border-border focus:ring-brand focus:border-brand"
-                />
-              </div>
+            <div className="space-y-2">
+              <Label htmlFor="maxPerDay" className="text-sm">
+                Max attempts per day
+              </Label>
+              <Input
+                id="maxPerDay"
+                type="number"
+                placeholder="Unlimited"
+                value={data.maxAttemptsPerDay || ""}
+                onChange={(e) => onUpdate({ 
+                  maxAttemptsPerDay: e.target.value ? parseInt(e.target.value) : null 
+                })}
+                className="border-border focus:ring-brand focus:border-brand"
+              />
             </div>
           </div>
 
