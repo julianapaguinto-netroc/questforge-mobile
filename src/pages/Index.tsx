@@ -8,16 +8,18 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background font-poppins">
-      {/* Header */}
-      <div className="bg-card border-b border-border">
-        <div className="p-4">
-          <h1 className="text-2xl font-semibold text-foreground">Challenge Commander</h1>
-          <p className="text-sm text-muted-foreground">Create and manage gamified rewards challenges</p>
+      {/* Mobile container */}
+      <div className="max-w-sm mx-auto bg-card border-x border-border min-h-screen">
+        {/* Header */}
+        <div className="bg-card border-b border-border">
+          <div className="p-4">
+            <h1 className="text-2xl font-semibold text-foreground">Challenge Commander</h1>
+            <p className="text-sm text-muted-foreground">Create and manage gamified rewards challenges</p>
+          </div>
         </div>
-      </div>
 
-      {/* Main Content */}
-      <div className="p-4 space-y-6">
+        {/* Main Content */}
+        <div className="p-4 space-y-6">
         {/* Quick Actions */}
         <Card>
           <CardHeader>
@@ -104,6 +106,7 @@ const Index = () => {
             ))}
           </CardContent>
         </Card>
+        </div>
       </div>
     </div>
   );

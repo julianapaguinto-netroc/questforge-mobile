@@ -15,7 +15,7 @@ interface RewardsConfigurationProps {
 
 export const RewardsConfiguration = ({ data, onUpdate }: RewardsConfigurationProps) => {
   const [newOutcome, setNewOutcome] = useState({ type: 'points' as 'points' | 'text', value: "" });
-  const [newProduct, setNewProduct] = useState({ name: "", points: 0, label: "" });
+  const [newProduct, setNewProduct] = useState({ name: "", points: 0 });
   const [newQuestion, setNewQuestion] = useState({
     question: "",
     choices: ["", "", "", ""],
@@ -52,16 +52,15 @@ export const RewardsConfiguration = ({ data, onUpdate }: RewardsConfigurationPro
   };
 
   const addProduct = () => {
-    if (!newProduct.name.trim() || !newProduct.label.trim()) return;
+    if (!newProduct.name.trim()) return;
     
     const currentProducts = data.rewards.buyProducts || [];
     const newProducts = [...currentProducts, { 
       productName: newProduct.name, 
-      points: newProduct.points,
-      label: newProduct.label
+      points: newProduct.points
     }];
     updateRewards('buyProducts', newProducts);
-    setNewProduct({ name: "", points: 0, label: "" });
+    setNewProduct({ name: "", points: 0 });
   };
 
   const removeProduct = (index: number) => {
@@ -256,17 +255,8 @@ export const RewardsConfiguration = ({ data, onUpdate }: RewardsConfigurationPro
               <Trash2 className="h-4 w-4" />
             </Button>
           </div>
-          <div className="grid grid-cols-2 gap-2">
-            <Input
-              value={product.label}
-              onChange={(e) => {
-                const products = [...(data.rewards.buyProducts || [])];
-                products[index].label = e.target.value;
-                updateRewards('buyProducts', products);
-              }}
-              placeholder="Label (e.g., Coffee Cup)"
-              className="text-sm"
-            />
+          <div>
+            <Label className="text-xs">Points Reward</Label>
             <Input
               type="number"
               value={product.points}
@@ -289,12 +279,8 @@ export const RewardsConfiguration = ({ data, onUpdate }: RewardsConfigurationPro
           onChange={(e) => setNewProduct({ ...newProduct, name: e.target.value })}
           placeholder="Product name"
         />
-        <div className="grid grid-cols-2 gap-2">
-          <Input
-            value={newProduct.label}
-            onChange={(e) => setNewProduct({ ...newProduct, label: e.target.value })}
-            placeholder="Label (e.g., Coffee Cup)"
-          />
+        <div>
+          <Label className="text-xs">Points Reward</Label>
           <Input
             type="number"
             value={newProduct.points}
