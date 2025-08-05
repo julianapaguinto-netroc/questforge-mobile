@@ -256,7 +256,7 @@ export const RewardsConfiguration = ({ data, onUpdate }: RewardsConfigurationPro
             </Button>
           </div>
           <div>
-            <Label className="text-xs">Points Reward</Label>
+            <Label className="text-xs">Points Value</Label>
             <Input
               type="number"
               value={product.points}
@@ -280,7 +280,7 @@ export const RewardsConfiguration = ({ data, onUpdate }: RewardsConfigurationPro
           placeholder="Product name"
         />
         <div>
-          <Label className="text-xs">Points Reward</Label>
+          <Label className="text-xs">Points Value</Label>
           <Input
             type="number"
             value={newProduct.points}
