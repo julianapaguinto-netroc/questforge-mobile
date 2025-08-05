@@ -20,14 +20,19 @@ export interface ChallengeData {
   instructions: string;
   maxAttemptsPerDay: number | null;
   visibility: "public" | "private";
+  inviteOnly?: {
+    participants: string[];
+    challengeLink: string;
+  };
   
   // Rewards - conditional based on type
   rewards: {
-    spinWheel?: Array<{ outcome: string; probability: number }>;
-    scratchCard?: Array<{ outcome: string; probability: number }>;
-    buyProducts?: Array<{ productName: string; points: number }>;
+    spinWheel?: Array<{ type: 'points' | 'text'; value: string; probability: number }>;
+    scratchCard?: Array<{ type: 'points' | 'text'; value: string; probability: number }>;
+    buyProducts?: Array<{ productName: string; points: number; label: string }>;
     quiz?: Array<{ question: string; choices: string[]; correctAnswer: number; points: number }>;
     slotMachine?: { points: number; jackpotProbability: number };
+    shareToEarn?: { points: number; shareLink: string };
   };
   
   // Schedule
@@ -48,6 +53,10 @@ const CreateChallenge = () => {
     instructions: "",
     maxAttemptsPerDay: null,
     visibility: "public",
+    inviteOnly: {
+      participants: [],
+      challengeLink: ""
+    },
     rewards: {},
     publishNow: true,
     publishDate: null,
