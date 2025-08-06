@@ -6,8 +6,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Copy, QrCode, Plus, X, Store } from "lucide-react";
+import { Copy, QrCode, Plus, X } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 import QRCode from "qrcode";
 import type { ChallengeData } from "@/pages/CreateChallenge";
@@ -20,25 +19,6 @@ interface MechanicsSettingsProps {
 export const MechanicsSettings = ({ data, onUpdate }: MechanicsSettingsProps) => {
   const [newParticipant, setNewParticipant] = useState("");
   const [qrCodeDataUrl, setQrCodeDataUrl] = useState<string>("");
-
-  const marketplaces = [
-    { 
-      name: "Lazada", 
-      subMarketplaces: ["Lazada Mall", "LazMall", "Overseas", "Local Sellers"]
-    },
-    { 
-      name: "Shopee", 
-      subMarketplaces: ["Shopee Mall", "Shopee Premium", "Local Sellers", "Cross Border"]
-    },
-    { 
-      name: "Amazon", 
-      subMarketplaces: ["Amazon Prime", "Amazon Fresh", "Third Party Sellers"]
-    },
-    { 
-      name: "Tokopedia", 
-      subMarketplaces: ["Official Store", "Gold Merchants", "Regular Sellers"]
-    }
-  ];
 
   const generateChallengeLink = () => {
     const baseUrl = window.location.origin;
@@ -116,69 +96,18 @@ export const MechanicsSettings = ({ data, onUpdate }: MechanicsSettingsProps) =>
 
   return (
     <div className="space-y-6">
-      {/* Marketplace Selection */}
       <Card>
         <CardHeader>
-          <CardTitle className="text-brand flex items-center gap-2">
-            <Store className="h-5 w-5" />
-            Marketplace Selection
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="space-y-2">
-            <Label className="text-sm font-medium">Select Main Platform</Label>
-            <Select
-              value={data.marketplace?.platform || ""}
-              onValueChange={(value) => {
-                const selectedMarketplace = marketplaces.find(m => m.name === value);
-                onUpdate({
-                  marketplace: {
-                    platform: value,
-                    subMarketplaces: selectedMarketplace ? selectedMarketplace.subMarketplaces : []
-                  }
-                });
-              }}
-            >
-              <SelectTrigger>
-                <SelectValue placeholder="Choose a marketplace platform" />
-              </SelectTrigger>
-              <SelectContent>
-                {marketplaces.map((marketplace) => (
-                  <SelectItem key={marketplace.name} value={marketplace.name}>
-                    {marketplace.name}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-
-          {data.marketplace?.platform && (
-            <div className="space-y-2">
-              <Label className="text-sm font-medium">Sub-Marketplaces</Label>
-              <div className="grid grid-cols-2 gap-2">
-                {data.marketplace.subMarketplaces.map((sub, index) => (
-                  <div key={index} className="p-3 bg-accent rounded-lg text-sm">
-                    {sub}
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-        </CardContent>
-      </Card>
-
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-brand">Challenge Settings</CardTitle>
+          <CardTitle className="text-brand">Game Settings</CardTitle>
         </CardHeader>
         <CardContent className="space-y-6">
           <div className="space-y-2">
             <Label htmlFor="instructions" className="text-sm font-medium">
-              Challenge Instructions
+              Game Instructions
             </Label>
             <Textarea
               id="instructions"
-              placeholder="Explain how participants can complete this challenge..."
+              placeholder="Explain how participants can complete this game..."
               rows={4}
               value={data.instructions}
               onChange={(e) => onUpdate({ instructions: e.target.value })}
@@ -189,7 +118,7 @@ export const MechanicsSettings = ({ data, onUpdate }: MechanicsSettingsProps) =>
           <div className="space-y-4">
             <div className="p-3 bg-accent rounded-lg">
               <p className="text-sm text-muted-foreground">
-                🎮 <strong>One-time Play:</strong> Each participant can only play this challenge once for fairness and engagement.
+                🎮 <strong>One-time Play:</strong> Each participant can only play this game once for fairness and engagement.
               </p>
             </div>
           </div>
@@ -259,7 +188,7 @@ export const MechanicsSettings = ({ data, onUpdate }: MechanicsSettingsProps) =>
 
                 {/* Share options */}
                 <div className="space-y-3 pt-3 border-t border-border">
-                  <Label className="text-sm font-medium">Share Challenge</Label>
+                  <Label className="text-sm font-medium">Share Game</Label>
                   
                   <div className="flex gap-2">
                     <Button

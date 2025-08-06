@@ -86,8 +86,8 @@ const CreateChallenge = () => {
   });
 
   const sections = [
-    { title: "Challenge Basics", component: ChallengeBasics },
-    { title: "Marketplace & Settings", component: MechanicsSettings },
+    { title: "Game Basics", component: ChallengeBasics },
+    { title: "Game Settings", component: MechanicsSettings },
     { title: "Rewards Configuration", component: RewardsConfiguration },
     { title: "Review & Schedule", component: ReviewSchedule },
   ];
@@ -116,8 +116,8 @@ const CreateChallenge = () => {
     }
 
     toast({
-      title: "Challenge Created!",
-      description: "Your challenge has been successfully created and scheduled.",
+      title: "Game Created!",
+      description: "Your game has been successfully created and scheduled.",
     });
     
     console.log("Challenge Data:", challengeData);
@@ -140,10 +140,10 @@ const CreateChallenge = () => {
               <ArrowLeft className="h-5 w-5" />
             </Button>
             <div>
-              <h1 className="text-lg font-semibold text-foreground">Create Challenge</h1>
-              <p className="text-sm text-muted-foreground">
-                {sections[currentSection].title}
-              </p>
+            <h1 className="text-lg font-semibold text-foreground">Create Game</h1>
+            <p className="text-sm text-muted-foreground">
+              {sections[currentSection].title}
+            </p>
             </div>
           </div>
           <Button variant="ghost" size="icon">
@@ -207,7 +207,7 @@ const CreateChallenge = () => {
               onClick={handleSubmit}
               className="flex-1 bg-brand hover:bg-brand/90"
             >
-              Create Challenge
+              Create Game
             </Button>
           )}
         </div>
