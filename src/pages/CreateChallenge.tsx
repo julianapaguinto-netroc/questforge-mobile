@@ -18,18 +18,39 @@ export interface ChallengeData {
   
   // Mechanics
   instructions: string;
-  maxAttemptsPerDay: number | null;
   visibility: "public" | "private";
   inviteOnly?: {
     participants: string[];
     challengeLink: string;
   };
   
+  // Marketplace
+  marketplace?: {
+    platform: string;
+    subMarketplaces: string[];
+  };
+  
   // Rewards - conditional based on type
   rewards: {
-    spinWheel?: Array<{ type: 'points' | 'text'; value: string; probability: number }>;
-    scratchCard?: Array<{ type: 'points' | 'text'; value: string; probability: number }>;
-    buyProducts?: Array<{ productName: string; points: number; label: string }>;
+    spinWheel?: Array<{ 
+      type: 'points' | 'text' | 'offers' | 'discount'; 
+      value: string; 
+      probability: number;
+      productName?: string;
+      discountPercentage?: number;
+      offerDescription?: string;
+      applicableCompanies?: string[];
+    }>;
+    scratchCard?: Array<{ 
+      type: 'points' | 'text' | 'offers' | 'discount'; 
+      value: string; 
+      probability: number;
+      productName?: string;
+      discountPercentage?: number;
+      offerDescription?: string;
+      applicableCompanies?: string[];
+    }>;
+    buyProducts?: Array<{ productName: string; points: number }>;
     quiz?: Array<{ question: string; choices: string[]; correctAnswer: number; points: number }>;
     slotMachine?: { points: number; jackpotProbability: number };
     shareToEarn?: { points: number; shareLink: string };
@@ -51,7 +72,6 @@ const CreateChallenge = () => {
     description: "",
     bannerImage: null,
     instructions: "",
-    maxAttemptsPerDay: null,
     visibility: "public",
     inviteOnly: {
       participants: [],
@@ -67,7 +87,7 @@ const CreateChallenge = () => {
 
   const sections = [
     { title: "Challenge Basics", component: ChallengeBasics },
-    { title: "Mechanics & Settings", component: MechanicsSettings },
+    { title: "Marketplace & Settings", component: MechanicsSettings },
     { title: "Rewards Configuration", component: RewardsConfiguration },
     { title: "Review & Schedule", component: ReviewSchedule },
   ];

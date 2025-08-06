@@ -6,7 +6,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Copy, QrCode, Plus, X } from "lucide-react";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Copy, QrCode, Plus, X, Store } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 import QRCode from "qrcode";
 import type { ChallengeData } from "@/pages/CreateChallenge";
@@ -19,6 +20,25 @@ interface MechanicsSettingsProps {
 export const MechanicsSettings = ({ data, onUpdate }: MechanicsSettingsProps) => {
   const [newParticipant, setNewParticipant] = useState("");
   const [qrCodeDataUrl, setQrCodeDataUrl] = useState<string>("");
+
+  const marketplaces = [
+    { 
+      name: "Lazada", 
+      subMarketplaces: ["Lazada Mall", "LazMall", "Overseas", "Local Sellers"]
+    },
+    { 
+      name: "Shopee", 
+      subMarketplaces: ["Shopee Mall", "Shopee Premium", "Local Sellers", "Cross Border"]
+    },
+    { 
+      name: "Amazon", 
+      subMarketplaces: ["Amazon Prime", "Amazon Fresh", "Third Party Sellers"]
+    },
+    { 
+      name: "Tokopedia", 
+      subMarketplaces: ["Official Store", "Gold Merchants", "Regular Sellers"]
+    }
+  ];
 
   const generateChallengeLink = () => {
     const baseUrl = window.location.origin;
@@ -96,9 +116,60 @@ export const MechanicsSettings = ({ data, onUpdate }: MechanicsSettingsProps) =>
 
   return (
     <div className="space-y-6">
+      {/* Marketplace Selection */}
       <Card>
         <CardHeader>
-          <CardTitle className="text-brand">Mechanics & Settings</CardTitle>
+          <CardTitle className="text-brand flex items-center gap-2">
+            <Store className="h-5 w-5" />
+            Marketplace Selection
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="space-y-2">
+            <Label className="text-sm font-medium">Select Main Platform</Label>
+            <Select
+              value={data.marketplace?.platform || ""}
+              onValueChange={(value) => {
+                const selectedMarketplace = marketplaces.find(m => m.name === value);
+                onUpdate({
+                  marketplace: {
+                    platform: value,
+                    subMarketplaces: selectedMarketplace ? selectedMarketplace.subMarketplaces : []
+                  }
+                });
+              }}
+            >
+              <SelectTrigger>
+                <SelectValue placeholder="Choose a marketplace platform" />
+              </SelectTrigger>
+              <SelectContent>
+                {marketplaces.map((marketplace) => (
+                  <SelectItem key={marketplace.name} value={marketplace.name}>
+                    {marketplace.name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+
+          {data.marketplace?.platform && (
+            <div className="space-y-2">
+              <Label className="text-sm font-medium">Sub-Marketplaces</Label>
+              <div className="grid grid-cols-2 gap-2">
+                {data.marketplace.subMarketplaces.map((sub, index) => (
+                  <div key={index} className="p-3 bg-accent rounded-lg text-sm">
+                    {sub}
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-brand">Challenge Settings</CardTitle>
         </CardHeader>
         <CardContent className="space-y-6">
           <div className="space-y-2">
@@ -116,22 +187,10 @@ export const MechanicsSettings = ({ data, onUpdate }: MechanicsSettingsProps) =>
           </div>
 
           <div className="space-y-4">
-            <h3 className="text-sm font-medium text-foreground">Participation Limits</h3>
-            
-            <div className="space-y-2">
-              <Label htmlFor="maxPerDay" className="text-sm">
-                Max attempts per day
-              </Label>
-              <Input
-                id="maxPerDay"
-                type="number"
-                placeholder="Unlimited"
-                value={data.maxAttemptsPerDay || ""}
-                onChange={(e) => onUpdate({ 
-                  maxAttemptsPerDay: e.target.value ? parseInt(e.target.value) : null 
-                })}
-                className="border-border focus:ring-brand focus:border-brand"
-              />
+            <div className="p-3 bg-accent rounded-lg">
+              <p className="text-sm text-muted-foreground">
+                🎮 <strong>One-time Play:</strong> Each participant can only play this challenge once for fairness and engagement.
+              </p>
             </div>
           </div>
 

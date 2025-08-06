@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Plus, Trash2 } from "lucide-react";
+import { GlobalRewardFields } from "./GlobalRewardFields";
 import type { ChallengeData } from "@/pages/CreateChallenge";
 
 interface RewardsConfigurationProps {
@@ -14,7 +15,15 @@ interface RewardsConfigurationProps {
 }
 
 export const RewardsConfiguration = ({ data, onUpdate }: RewardsConfigurationProps) => {
-  const [newOutcome, setNewOutcome] = useState({ type: 'points' as 'points' | 'text', value: "" });
+  const [newOutcome, setNewOutcome] = useState({ 
+    type: 'points' as 'points' | 'text' | 'offers' | 'discount', 
+    value: "",
+    probability: 10,
+    productName: "",
+    discountPercentage: 0,
+    offerDescription: "",
+    applicableCompanies: []
+  });
   const [newProduct, setNewProduct] = useState({ name: "", points: 0 });
   const [newQuestion, setNewQuestion] = useState({
     question: "",
@@ -37,12 +46,19 @@ export const RewardsConfiguration = ({ data, onUpdate }: RewardsConfigurationPro
     
     const currentOutcomes = data.rewards[type] || [];
     const newOutcomes = [...currentOutcomes, { 
-      type: newOutcome.type, 
-      value: newOutcome.value, 
+      ...newOutcome,
       probability: 10 
     }];
     updateRewards(type, newOutcomes);
-    setNewOutcome({ type: 'points', value: "" });
+    setNewOutcome({
+      type: 'points',
+      value: "",
+      probability: 10,
+      productName: "",
+      discountPercentage: 0,
+      offerDescription: "",
+      applicableCompanies: []
+    });
   };
 
   const removeOutcome = (type: 'spinWheel' | 'scratchCard', index: number) => {
@@ -95,66 +111,46 @@ export const RewardsConfiguration = ({ data, onUpdate }: RewardsConfigurationPro
       
       {/* Existing outcomes */}
       {(data.rewards.spinWheel || []).map((outcome, index) => (
-        <div key={index} className="flex items-center gap-2 p-3 bg-accent rounded-lg">
-          <Select
-            value={outcome.type}
-            onValueChange={(value: 'points' | 'text') => {
-              const outcomes = [...(data.rewards.spinWheel || [])];
-              outcomes[index].type = value;
-              updateRewards('spinWheel', outcomes);
-            }}
-          >
-            <SelectTrigger className="w-24">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="points">Points</SelectItem>
-              <SelectItem value="text">Text</SelectItem>
-            </SelectContent>
-          </Select>
-          <Input
-            value={outcome.value}
-            onChange={(e) => {
-              const outcomes = [...(data.rewards.spinWheel || [])];
-              outcomes[index].value = e.target.value;
-              updateRewards('spinWheel', outcomes);
-            }}
-            placeholder={outcome.type === 'points' ? "100" : "Better luck next time"}
-            className="flex-1"
-          />
-          <Button
-            variant="destructive"
-            size="icon"
-            onClick={() => removeOutcome('spinWheel', index)}
-          >
-            <Trash2 className="h-4 w-4" />
-          </Button>
+        <div key={index} className="p-3 bg-accent rounded-lg space-y-3">
+          <div className="flex items-center gap-2">
+            <GlobalRewardFields
+              outcome={outcome}
+              onUpdate={(updatedOutcome) => {
+                const outcomes = [...(data.rewards.spinWheel || [])];
+                outcomes[index] = updatedOutcome;
+                updateRewards('spinWheel', outcomes);
+              }}
+            />
+            <Button
+              variant="destructive"
+              size="icon"
+              onClick={() => removeOutcome('spinWheel', index)}
+              className="shrink-0"
+            >
+              <Trash2 className="h-4 w-4" />
+            </Button>
+          </div>
         </div>
       ))}
 
       {/* Add new outcome */}
-      <div className="flex gap-2">
-        <Select
-          value={newOutcome.type}
-          onValueChange={(value: 'points' | 'text') => setNewOutcome({ ...newOutcome, type: value })}
-        >
-          <SelectTrigger className="w-24">
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="points">Points</SelectItem>
-            <SelectItem value="text">Text</SelectItem>
-          </SelectContent>
-        </Select>
-        <Input
-          value={newOutcome.value}
-          onChange={(e) => setNewOutcome({ ...newOutcome, value: e.target.value })}
-          placeholder={newOutcome.type === 'points' ? "100" : "Better luck next time"}
-          className="flex-1"
-        />
-        <Button onClick={() => addOutcome('spinWheel')} variant="outline">
-          <Plus className="h-4 w-4" />
-        </Button>
+      <div className="p-3 border border-dashed border-border rounded-lg">
+        <div className="space-y-3">
+          <GlobalRewardFields
+            outcome={newOutcome}
+            onUpdate={(outcome) => setNewOutcome({
+              ...outcome,
+              productName: outcome.productName || "",
+              discountPercentage: outcome.discountPercentage || 0,
+              offerDescription: outcome.offerDescription || "",
+              applicableCompanies: outcome.applicableCompanies || []
+            })}
+          />
+          <Button onClick={() => addOutcome('spinWheel')} variant="outline" className="w-full">
+            <Plus className="h-4 w-4 mr-2" />
+            Add Outcome
+          </Button>
+        </div>
       </div>
     </div>
   );
@@ -165,66 +161,46 @@ export const RewardsConfiguration = ({ data, onUpdate }: RewardsConfigurationPro
       
       {/* Existing outcomes */}
       {(data.rewards.scratchCard || []).map((outcome, index) => (
-        <div key={index} className="flex items-center gap-2 p-3 bg-accent rounded-lg">
-          <Select
-            value={outcome.type}
-            onValueChange={(value: 'points' | 'text') => {
-              const outcomes = [...(data.rewards.scratchCard || [])];
-              outcomes[index].type = value;
-              updateRewards('scratchCard', outcomes);
-            }}
-          >
-            <SelectTrigger className="w-24">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="points">Points</SelectItem>
-              <SelectItem value="text">Text</SelectItem>
-            </SelectContent>
-          </Select>
-          <Input
-            value={outcome.value}
-            onChange={(e) => {
-              const outcomes = [...(data.rewards.scratchCard || [])];
-              outcomes[index].value = e.target.value;
-              updateRewards('scratchCard', outcomes);
-            }}
-            placeholder={outcome.type === 'points' ? "100" : "Try again"}
-            className="flex-1"
-          />
-          <Button
-            variant="destructive"
-            size="icon"
-            onClick={() => removeOutcome('scratchCard', index)}
-          >
-            <Trash2 className="h-4 w-4" />
-          </Button>
+        <div key={index} className="p-3 bg-accent rounded-lg space-y-3">
+          <div className="flex items-center gap-2">
+            <GlobalRewardFields
+              outcome={outcome}
+              onUpdate={(updatedOutcome) => {
+                const outcomes = [...(data.rewards.scratchCard || [])];
+                outcomes[index] = updatedOutcome;
+                updateRewards('scratchCard', outcomes);
+              }}
+            />
+            <Button
+              variant="destructive"
+              size="icon"
+              onClick={() => removeOutcome('scratchCard', index)}
+              className="shrink-0"
+            >
+              <Trash2 className="h-4 w-4" />
+            </Button>
+          </div>
         </div>
       ))}
 
       {/* Add new outcome */}
-      <div className="flex gap-2">
-        <Select
-          value={newOutcome.type}
-          onValueChange={(value: 'points' | 'text') => setNewOutcome({ ...newOutcome, type: value })}
-        >
-          <SelectTrigger className="w-24">
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="points">Points</SelectItem>
-            <SelectItem value="text">Text</SelectItem>
-          </SelectContent>
-        </Select>
-        <Input
-          value={newOutcome.value}
-          onChange={(e) => setNewOutcome({ ...newOutcome, value: e.target.value })}
-          placeholder={newOutcome.type === 'points' ? "100" : "Try again"}
-          className="flex-1"
-        />
-        <Button onClick={() => addOutcome('scratchCard')} variant="outline">
-          <Plus className="h-4 w-4" />
-        </Button>
+      <div className="p-3 border border-dashed border-border rounded-lg">
+        <div className="space-y-3">
+          <GlobalRewardFields
+            outcome={newOutcome}
+            onUpdate={(outcome) => setNewOutcome({
+              ...outcome,
+              productName: outcome.productName || "",
+              discountPercentage: outcome.discountPercentage || 0,
+              offerDescription: outcome.offerDescription || "",
+              applicableCompanies: outcome.applicableCompanies || []
+            })}
+          />
+          <Button onClick={() => addOutcome('scratchCard')} variant="outline" className="w-full">
+            <Plus className="h-4 w-4 mr-2" />
+            Add Outcome
+          </Button>
+        </div>
       </div>
     </div>
   );
