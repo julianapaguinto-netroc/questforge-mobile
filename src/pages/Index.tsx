@@ -1,26 +1,57 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Plus, Trophy, Users, TrendingUp, ChevronRight, Store } from "lucide-react";
+import { Plus, Trophy, Users, TrendingUp, ChevronRight, ChevronLeft, Store } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 const Index = () => {
   const navigate = useNavigate();
-  
+  const scrollRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
+
   const [activeGames] = useState([
     { id: 1, name: "Summer Sale Spin", type: "Spin the Wheel", participants: 1250, status: "Active" },
     { id: 2, name: "Lucky Scratch", type: "Scratch Card", participants: 850, status: "Active" },
     { id: 3, name: "Tech Quiz Pro", type: "Quiz Game", participants: 420, status: "Draft" },
   ]);
 
-  const subCompanies = [
-    { id: "lazada-mall", name: "Lazada Mall", logo: "🏪", subCount: 4 },
-    { id: "shopee-mall", name: "Shopee Mall", logo: "🛒", subCount: 3 },
-    { id: "amazon-prime", name: "Amazon Prime", logo: "📦", subCount: 2 },
-    { id: "tokopedia", name: "Tokopedia", logo: "🛍️", subCount: 3 },
+  const companiesData = [
+    {
+      id: "lazada",
+      name: "Lazada",
+      logo: "🛍️",
+      subCompanies: [
+        { id: "lazada-mall", name: "Lazada Mall", logo: "🏪"},
+        { id: "lazada-global", name: "LazMall Global", logo: "🌍" },
+      ],
+    },
+    {
+      id: "shopee",
+      name: "Shopee",
+      logo: "🛒",
+      subCompanies: [
+        { id: "shopee-mall", name: "Shopee Mall", logo: "🛒" },
+        { id: "shopee-premium", name: "Shopee Premium", logo: "⭐" },
+      ],
+    },
+    {
+      id: "amazon",
+      name: "Amazon",
+      logo: "📦",
+      subCompanies: [
+        { id: "amazon-prime", name: "Amazon Prime", logo: "📦" },
+        { id: "amazon-fresh", name: "Amazon Fresh", logo: "🥬" },
+      ],
+    },
   ];
+
+  const scroll = (id: string, direction: "left" | "right") => {
+    const container = scrollRefs.current[id];
+    if (container) {
+      container.scrollBy({ left: direction === "right" ? 200 : -200, behavior: "smooth" });
+    }
+  };
 
   return (
     <div className="min-h-screen bg-background font-poppins max-w-sm mx-auto border-x border-border">
@@ -31,7 +62,7 @@ const Index = () => {
             <h1 className="text-xl font-bold text-foreground">Game Commander</h1>
             <p className="text-sm text-muted-foreground">Marketplace Gaming Platform</p>
           </div>
-          <Button 
+          <Button
             onClick={() => navigate("/create-challenge")}
             className="bg-brand hover:bg-brand/90"
           >
@@ -75,10 +106,10 @@ const Index = () => {
               <div className="flex items-center justify-between">
                 <CardTitle className="text-brand flex items-center gap-2">
                   <Store className="h-5 w-5" />
-                  Subcompanies
+                  Company Commanders
                 </CardTitle>
-                <Button 
-                  variant="ghost" 
+                <Button
+                  variant="ghost"
                   size="sm"
                   onClick={() => navigate("/commanders")}
                   className="text-brand hover:text-brand/80"
@@ -88,26 +119,51 @@ const Index = () => {
                 </Button>
               </div>
             </CardHeader>
-            <CardContent className="pt-0">
-              <ScrollArea className="w-full">
-                <div className="flex gap-3 pb-2">
-                  {subCompanies.map((company) => (
-                    <Card 
-                      key={company.id}
-                      className="min-w-[140px] cursor-pointer hover:shadow-md transition-shadow"
-                      onClick={() => navigate(`/subcompany/${company.id}`)}
+            <CardContent className="pt-0 space-y-4">
+              {companiesData.map((company) => (
+                <div key={company.id}>
+                  <div className="flex items-center justify-between mb-1">
+                    <h4 className="font-medium text-sm flex items-center gap-1 text-foreground">
+                      <span className="text-lg">{company.logo}</span>
+                      {company.name}
+                    </h4>
+                  </div>
+                  <div className="relative">
+                    <button
+                      className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-background shadow-md p-1 rounded-full"
+                      onClick={() => scroll(company.id, "left")}
                     >
-                      <CardContent className="p-3 text-center">
-                        <div className="text-2xl mb-2">{company.logo}</div>
-                        <h4 className="font-medium text-sm text-foreground mb-1">{company.name}</h4>
-                        <Badge variant="secondary" className="text-xs">
-                          {company.subCount} sub-companies
-                        </Badge>
-                      </CardContent>
-                    </Card>
-                  ))}
+                      <ChevronLeft className="w-4 h-4" />
+                    </button>
+
+                    <div
+                      ref={(el) => (scrollRefs.current[company.id] = el)}
+                      className="flex gap-3 overflow-x-auto scroll-smooth scrollbar-hide px-6"
+                    >
+                      {company.subCompanies.map((sub) => (
+                        <Card
+                          key={sub.id}
+                          className="min-w-[140px] cursor-pointer hover:shadow-md transition-shadow"
+                          onClick={() => navigate(`/subcompany/${sub.id}`)}
+                        >
+                          <CardContent className="p-3 text-center">
+                            <div className="text-2xl mb-2">{sub.logo}</div>
+                            <h4 className="font-medium text-sm text-foreground mb-1">{sub.name}</h4>
+                           
+                          </CardContent>
+                        </Card>
+                      ))}
+                    </div>
+
+                    <button
+                      className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-background shadow-md p-1 rounded-full"
+                      onClick={() => scroll(company.id, "right")}
+                    >
+                      <ChevronRight className="w-4 h-4" />
+                    </button>
+                  </div>
                 </div>
-              </ScrollArea>
+              ))}
             </CardContent>
           </Card>
 
@@ -128,7 +184,7 @@ const Index = () => {
                           <span>{game.participants.toLocaleString()} players</span>
                         </div>
                       </div>
-                      <Badge 
+                      <Badge
                         variant={game.status === "Active" ? "default" : "secondary"}
                         className={game.status === "Active" ? "bg-brand text-brand-foreground" : ""}
                       >
