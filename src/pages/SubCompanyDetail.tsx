@@ -46,8 +46,8 @@ const SubCompanyDetail = () => {
         { id: 6, name: "Nestle Water Bottle", points: 300, image: "💧", category: "Beverages" },
       ]
     },
-    nike: {
-      id: "nike",
+    Nike: {
+      id: "Nike",
       name: "Nike",
       logo: "🛍️",
       rating: 4.9,
