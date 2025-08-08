@@ -45,6 +45,40 @@ const SubCompanyDetail = () => {
         { id: 5, name: "Nestle Cereal Box", points: 1500, image: "🥣", category: "Food" },
         { id: 6, name: "Nestle Water Bottle", points: 300, image: "💧", category: "Beverages" },
       ]
+    },
+    nike: {
+      id: "nike",
+      name: "Nike",
+      logo: "🛍️",
+      rating: 4.9,
+      location: "United States",
+      description: "Just Do It. Global leader in athletic footwear, apparel, equipment and accessories. Experience innovation and performance with Nike's cutting-edge sports technology.",
+      joinedDate: "2019",
+      products: [
+        { id: 1, name: "Nike Air Max 270", points: 9500, image: "👟", category: "Footwear" },
+        { id: 2, name: "Nike Dri-FIT Shirt", points: 4200, image: "👕", category: "Apparel" },
+        { id: 3, name: "Nike Air Jordan 1", points: 12000, image: "👟", category: "Footwear" },
+        { id: 4, name: "Nike Sports Bra", points: 3500, image: "👙", category: "Apparel" },
+        { id: 5, name: "Nike Running Jacket", points: 6800, image: "🧥", category: "Apparel" },
+        { id: 6, name: "Nike Gym Bag", points: 4500, image: "👜", category: "Accessories" },
+      ]
+    },
+    uniqlo: {
+      id: "uniqlo",
+      name: "Uniqlo",
+      logo: "🏬",
+      rating: 4.5,
+      location: "Japan",
+      description: "LifeWear for everyone. Simple, high-quality clothing designed to improve daily life. Discover innovative fabrics and timeless designs from Uniqlo.",
+      joinedDate: "2021",
+      products: [
+        { id: 1, name: "Uniqlo Heattech Shirt", points: 2800, image: "👕", category: "Apparel" },
+        { id: 2, name: "Uniqlo Ultra Light Down", points: 5500, image: "🧥", category: "Outerwear" },
+        { id: 3, name: "Uniqlo Airism T-Shirt", points: 2200, image: "👕", category: "Apparel" },
+        { id: 4, name: "Uniqlo Jeans", points: 4200, image: "👖", category: "Apparel" },
+        { id: 5, name: "Uniqlo Fleece Jacket", points: 3800, image: "🧥", category: "Outerwear" },
+        { id: 6, name: "Uniqlo Socks Pack", points: 1200, image: "🧦", category: "Accessories" },
+      ]
     }
   };
 
