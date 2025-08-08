@@ -24,7 +24,7 @@ interface GlobalRewardFieldsProps {
 }
 
 const DEFAULT_COMPANIES = [
-  "Lazada", "Shopee", "Amazon", "Tokopedia", "Bukalapak", "JD.com", "Alibaba", "eBay"
+  "Puma", "Nike", "Nestle Store", "Uniqlo"
 ];
 
 export const GlobalRewardFields = ({ outcome, onUpdate, companies = DEFAULT_COMPANIES }: GlobalRewardFieldsProps) => {

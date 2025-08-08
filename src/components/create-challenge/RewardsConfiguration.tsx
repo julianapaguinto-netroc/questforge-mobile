@@ -67,24 +67,6 @@ export const RewardsConfiguration = ({ data, onUpdate }: RewardsConfigurationPro
     updateRewards(type, newOutcomes);
   };
 
-  const addProduct = () => {
-    if (!newProduct.name.trim()) return;
-    
-    const currentProducts = data.rewards.buyProducts || [];
-    const newProducts = [...currentProducts, { 
-      productName: newProduct.name, 
-      points: newProduct.points
-    }];
-    updateRewards('buyProducts', newProducts);
-    setNewProduct({ name: "", points: 0 });
-  };
-
-  const removeProduct = (index: number) => {
-    const currentProducts = data.rewards.buyProducts || [];
-    const newProducts = currentProducts.filter((_, i) => i !== index);
-    updateRewards('buyProducts', newProducts);
-  };
-
   const addQuestion = () => {
     if (!newQuestion.question.trim()) return;
     
@@ -201,73 +183,6 @@ export const RewardsConfiguration = ({ data, onUpdate }: RewardsConfigurationPro
             Add Outcome
           </Button>
         </div>
-      </div>
-    </div>
-  );
-
-  const renderBuyProductsConfig = () => (
-    <div className="space-y-4">
-      <h3 className="text-sm font-medium">Products to Buy</h3>
-      
-      {/* Existing products */}
-      {(data.rewards.buyProducts || []).map((product, index) => (
-        <div key={index} className="space-y-2 p-3 bg-accent rounded-lg">
-          <div className="flex items-center gap-2">
-            <Input
-              value={product.productName}
-              onChange={(e) => {
-                const products = [...(data.rewards.buyProducts || [])];
-                products[index].productName = e.target.value;
-                updateRewards('buyProducts', products);
-              }}
-              placeholder="Product name"
-              className="flex-1"
-            />
-            <Button
-              variant="destructive"
-              size="icon"
-              onClick={() => removeProduct(index)}
-            >
-              <Trash2 className="h-4 w-4" />
-            </Button>
-          </div>
-          <div>
-            <Label className="text-xs">Points Value</Label>
-            <Input
-              type="number"
-              value={product.points}
-              onChange={(e) => {
-                const products = [...(data.rewards.buyProducts || [])];
-                products[index].points = parseInt(e.target.value) || 0;
-                updateRewards('buyProducts', products);
-              }}
-              placeholder="Points"
-              className="text-sm"
-            />
-          </div>
-        </div>
-      ))}
-
-      {/* Add new product */}
-      <div className="space-y-2">
-        <Input
-          value={newProduct.name}
-          onChange={(e) => setNewProduct({ ...newProduct, name: e.target.value })}
-          placeholder="Product name"
-        />
-        <div>
-          <Label className="text-xs">Points Value</Label>
-          <Input
-            type="number"
-            value={newProduct.points}
-            onChange={(e) => setNewProduct({ ...newProduct, points: parseInt(e.target.value) || 0 })}
-            placeholder="Points reward"
-          />
-        </div>
-        <Button onClick={addProduct} variant="outline" className="w-full">
-          <Plus className="h-4 w-4 mr-2" />
-          Add Product
-        </Button>
       </div>
     </div>
   );
@@ -470,7 +385,6 @@ export const RewardsConfiguration = ({ data, onUpdate }: RewardsConfigurationPro
         <CardContent>
           {data.type === "Spin the Wheel" && renderSpinWheelConfig()}
           {data.type === "Scratch Card" && renderScratchCardConfig()}
-          {data.type === "Buy Products" && renderBuyProductsConfig()}
           {data.type === "Quiz Challenge" && renderQuizConfig()}
           {data.type === "Slot Machine" && renderSlotMachineConfig()}
           {data.type === "Share to Earn" && renderShareToEarnConfig()}

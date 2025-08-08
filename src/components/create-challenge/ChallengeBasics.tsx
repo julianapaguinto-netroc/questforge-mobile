@@ -21,7 +21,6 @@ export const ChallengeBasics = ({ data, onUpdate }: ChallengeBasicsProps) => {
   const challengeTypes = [
     "Spin the Wheel",
     "Scratch Card", 
-    "Buy Products",
     "Share to Earn",
     "Quiz Challenge",
     "Slot Machine"

@@ -22,28 +22,11 @@ const Index = () => {
       name: "Lazada",
       logo: "🛍️",
       subCompanies: [
-        { id: "lazada-mall", name: "Lazada Mall", logo: "🏪"},
-        { id: "lazada-global", name: "LazMall Global", logo: "🌍" },
+        { id: "puma", name: "Puma", logo: "🏪"},
+        { id: "nestle", name: "Nestle Store", logo: "🌍" },
       ],
     },
-    {
-      id: "shopee",
-      name: "Shopee",
-      logo: "🛒",
-      subCompanies: [
-        { id: "shopee-mall", name: "Shopee Mall", logo: "🛒" },
-        { id: "shopee-premium", name: "Shopee Premium", logo: "⭐" },
-      ],
-    },
-    {
-      id: "amazon",
-      name: "Amazon",
-      logo: "📦",
-      subCompanies: [
-        { id: "amazon-prime", name: "Amazon Prime", logo: "📦" },
-        { id: "amazon-fresh", name: "Amazon Fresh", logo: "🥬" },
-      ],
-    },
+    
   ];
 
   const scroll = (id: string, direction: "left" | "right") => {
@@ -59,8 +42,8 @@ const Index = () => {
       <div className="sticky top-0 z-50 bg-card border-b border-border">
         <div className="flex items-center justify-between p-4">
           <div>
-            <h1 className="text-xl font-bold text-foreground">Game Commander</h1>
-            <p className="text-sm text-muted-foreground">Marketplace Gaming Platform</p>
+            <h1 className="text-xl font-bold text-foreground">Lazada</h1>
+            <p className="text-sm text-muted-foreground">Game Commander</p>
           </div>
           <Button
             onClick={() => navigate("/create-challenge")}
