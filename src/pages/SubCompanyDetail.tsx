@@ -11,22 +11,52 @@ const SubCompanyDetail = () => {
   const navigate = useNavigate();
 
   // Mock data - in real app, fetch from API
-  const company = {
+  const companiesData: { [key: string]: any } = {
+    puma: {
+      id: "puma",
+      name: "Puma",
+      logo: "🏪",
+      rating: 4.7,
+      location: "Germany",
+      description: "Global athletic brand offering high-performance sportswear, footwear, and accessories. Shop the latest collections from Puma's innovative sports technology.",
+      joinedDate: "2020",
+      products: [
+        { id: 1, name: "Puma RS-X Sneakers", points: 7500, image: "👟", category: "Footwear" },
+        { id: 2, name: "Puma Training Set", points: 5200, image: "👕", category: "Apparel" },
+        { id: 3, name: "Puma Football Boots", points: 8900, image: "⚽", category: "Footwear" },
+        { id: 4, name: "Puma Sports Backpack", points: 3500, image: "🎒", category: "Accessories" },
+        { id: 5, name: "Puma Running Shorts", points: 2800, image: "🩳", category: "Apparel" },
+        { id: 6, name: "Puma Cap", points: 1500, image: "🧢", category: "Accessories" },
+      ]
+    },
+    nestle: {
+      id: "nestle",
+      name: "Nestle Store",
+      logo: "🌍",
+      rating: 4.6,
+      location: "Switzerland",
+      description: "World's leading nutrition, health and wellness company. Discover premium food and beverage products from trusted Nestle brands.",
+      joinedDate: "2018",
+      products: [
+        { id: 1, name: "Nescafe Gold Coffee", points: 1200, image: "☕", category: "Beverages" },
+        { id: 2, name: "KitKat Chocolate Bar", points: 500, image: "🍫", category: "Confectionery" },
+        { id: 3, name: "Maggi Instant Noodles", points: 800, image: "🍜", category: "Food" },
+        { id: 4, name: "Milo Energy Drink", points: 900, image: "🥤", category: "Beverages" },
+        { id: 5, name: "Nestle Cereal Box", points: 1500, image: "🥣", category: "Food" },
+        { id: 6, name: "Nestle Water Bottle", points: 300, image: "💧", category: "Beverages" },
+      ]
+    }
+  };
+
+  const company = companiesData[companyId as string] || {
     id: companyId,
-    name: "Lazada Mall",
-    logo: "🏪",
-    rating: 4.8,
-    location: "Singapore",
-    description: "Official flagship stores with guaranteed authenticity and premium service. Enjoy exclusive deals, faster shipping, and reliable customer support.",
-    joinedDate: "2019",
-    products: [
-      { id: 1, name: "iPhone 14 Pro", points: 15000, image: "📱", category: "Electronics" },
-      { id: 2, name: "Nike Air Jordan", points: 8500, image: "👟", category: "Fashion" },
-      { id: 3, name: "MacBook Pro M2", points: 25000, image: "💻", category: "Electronics" },
-      { id: 4, name: "Samsung Galaxy S23", points: 12000, image: "📱", category: "Electronics" },
-      { id: 5, name: "Adidas Ultraboost", points: 6500, image: "👟", category: "Fashion" },
-      { id: 6, name: "Sony WH-1000XM4", points: 4500, image: "🎧", category: "Electronics" },
-    ]
+    name: "Store Not Found",
+    logo: "❓",
+    rating: 0,
+    location: "Unknown",
+    description: "This store is not available.",
+    joinedDate: "2024",
+    products: []
   };
 
   return (
